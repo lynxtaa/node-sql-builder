@@ -1,24 +1,87 @@
 {
-  "name": "sql-builder",
-  "preferGlobal": "false",
-  "version": "0.0.5beta",
+  "_args": [
+    [
+      {
+        "raw": "sql-builder@git://github.com/Serhioromano/node-sql-builder.git",
+        "scope": null,
+        "escapedName": "sql-builder",
+        "name": "sql-builder",
+        "rawSpec": "git://github.com/Serhioromano/node-sql-builder.git",
+        "spec": "git://github.com/Serhioromano/node-sql-builder.git",
+        "type": "hosted",
+        "hosted": {
+          "type": "github",
+          "ssh": "git@github.com:Serhioromano/node-sql-builder.git",
+          "sshUrl": "git+ssh://git@github.com/Serhioromano/node-sql-builder.git",
+          "httpsUrl": "git+https://github.com/Serhioromano/node-sql-builder.git",
+          "gitUrl": "git://github.com/Serhioromano/node-sql-builder.git",
+          "shortcut": "github:Serhioromano/node-sql-builder",
+          "directUrl": "https://raw.githubusercontent.com/Serhioromano/node-sql-builder/master/package.json"
+        }
+      },
+      "C:\\new_db_server"
+    ]
+  ],
+  "_from": "git://github.com/Serhioromano/node-sql-builder.git",
+  "_id": "sql-builder@0.0.5-beta",
+  "_inCache": true,
+  "_location": "/sql-builder",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "sql-builder@git://github.com/Serhioromano/node-sql-builder.git",
+    "scope": null,
+    "escapedName": "sql-builder",
+    "name": "sql-builder",
+    "rawSpec": "git://github.com/Serhioromano/node-sql-builder.git",
+    "spec": "git://github.com/Serhioromano/node-sql-builder.git",
+    "type": "hosted",
+    "hosted": {
+      "type": "github",
+      "ssh": "git@github.com:Serhioromano/node-sql-builder.git",
+      "sshUrl": "git+ssh://git@github.com/Serhioromano/node-sql-builder.git",
+      "httpsUrl": "git+https://github.com/Serhioromano/node-sql-builder.git",
+      "gitUrl": "git://github.com/Serhioromano/node-sql-builder.git",
+      "shortcut": "github:Serhioromano/node-sql-builder",
+      "directUrl": "https://raw.githubusercontent.com/Serhioromano/node-sql-builder/master/package.json"
+    }
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git://github.com/Serhioromano/node-sql-builder.git#7784ebd9621e696defd54422d5970de7a69d721b",
+  "_shasum": "5647a16eb20a1a938fc07fc181845ddc72c4dd00",
+  "_shrinkwrap": null,
+  "_spec": "sql-builder@git://github.com/Serhioromano/node-sql-builder.git",
+  "_where": "C:\\new_db_server",
+  "analyze": true,
   "author": {
-    "email": "serg4172@mail.ru",
     "name": "Sergey Romanov",
+    "email": "serg4172@mail.ru",
     "url": "http://www.facebook.com/serhioromano"
   },
-  "description": "Adapter based SQL query string builder. Get total control over constructing you SQL queries. Quickly create adapter for your favorit DB (MySQL adapter included).  Set where condition, and delete it later if your app changed its mind :).",
+  "bugs": {
+    "url": "https://github.com/Serhioromano/node-sql-builder/issues"
+  },
+  "config": {
+    "adapter": "mysql"
+  },
   "contributors": [
     {
       "name": "Pavel Sapachev",
       "email": "pavel@sapachev.com"
     }
   ],
-  "main": "./index",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Serhioromano/node-sql-builder.git"
+  "dependencies": {
+    "colors": "0.6.x",
+    "underscore": "1.4.x"
   },
+  "description": "Adapter based SQL query string builder. Get total control over constructing you SQL queries. Quickly create adapter for your favorit DB (MySQL adapter included).  Set where condition, and delete it later if your app changed its mind :).",
+  "devDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "gitHead": "7784ebd9621e696defd54422d5970de7a69d721b",
+  "homepage": "https://github.com/Serhioromano/node-sql-builder#readme",
   "keywords": [
     "sql",
     "mysql",
@@ -29,16 +92,16 @@
     "sql-constructor",
     "query-constructor"
   ],
-  "analyze": true,
   "license": "MIT",
-  "engines": {
-    "node": "*"
+  "main": "./index",
+  "name": "sql-builder",
+  "optionalDependencies": {},
+  "preferGlobal": "false",
+  "readme": "## Node SQL Query Builder\r\n\r\nThis is adapter based SQL query builder. This means that building queries for every DB like MySQL(included),\r\nSQLite is handled by separate adapters. It make this sql query builder highly extendable.\r\n\r\n## How to use\r\n\r\n### Selects\r\n\r\n```js\r\nrequire('colors');\r\n\r\nvar Select = require('sql-builder').select;\r\n\r\n// you can assign some query data on construction\r\nvar query = new Select({\r\n\tgroup:'time',\r\n\thaving:['t = 1 ASC', 'b = 2 DESC']\r\n});\r\n\r\n// you can assign special query options\r\nquery.option('DISTINCT');\r\n\r\n// You can use chains\r\nquery\r\n\t.select('u.*')\r\n\t.from('users AS u');\r\n\r\n// put array or string or object\r\nquery.where(\"u.name = 'john'\");\r\n\r\n// set where to be deleted later\r\nquery.select('(SELECT COUNT(*) FROM messages) AS messages)', 'selmsg');\r\n\r\nquery.select('a.avatar').join('user_attr AS a ON a.user_id = u.id');\r\n\r\n// show 10 items per page and 5th page\r\nquery.offset(5, 10);\r\n\r\n// we decided not to calculate messages\r\nquery.resetSelect('selmsg');\r\n\r\n// render to string throu renderer\r\nconsole.log(query.toString().bold.blue);\r\n```\r\n\r\n### Delete\r\n\r\n```js\r\nrequire('colors');\r\n\r\nvar Delete = require('sql-builder').delete;\r\n\r\n// add parametres on cunstruction\r\nvar query1 = new Delete({from: 'users', where:[\"id = 10\", \"blocked = 0\"]});\r\nconsole.warn(query1.toString().bold.green);\r\n\r\nvar query2 = new Delete();\r\n\r\n// use chanes\r\nquery2.from('users').where('id = 10');\r\n\r\n// add key to value later can delet by key\r\nquery2.where('blocked = 1', 'c1');\r\n\r\n// put array\r\nquery2.where(['a = 1', 'a = 2']);\r\n\r\n// put object\r\nquery2.where({test:'my = 2'});\r\n\r\n// reset key. If no key all where reseted\r\nquery2.resetWhere('c2');\r\n\r\nconsole.warn(query2.toString().bold.blue);\r\n```\r\n\r\n### Insert\r\n\r\n```js\r\nrequire('colors');\r\n\r\nvar Insert = require('sql-builder').insert;\r\n\r\nvar query = new Insert();\r\n\r\nquery.ignore(true);\r\n\r\nquery.into('user');\r\n\r\nquery.values({\r\n\tid: 0,\r\n\tname: 'sergey'\r\n});\r\n\r\nquery.values({\r\n\tblock: 0,\r\n\tpassword: '123'\r\n});\r\n\r\nquery.values({\r\n\tdescription: \"this is user's \\\"descritption\\\"! \\n Or ''not? \\n Anyway #1 user to test simbols.\"\r\n});\r\n\r\nquery.values([\r\n\t{ id: 0, name: 'sergey' },\r\n\t{ id: 1, name: 'andrey' },\r\n\t{ id: 2, name: 'pavel' }\r\n]);\r\n\r\nquery.values([\r\n\t'sergey',\r\n\t'andrey',\r\n\t'pavel'\r\n]);\r\n\r\nconsole.log(query.toString().bold.blue);\r\n```\r\n\r\n### Update\r\n\r\n```js\r\nrequire('colors');\r\n\r\nvar Update = require('sql-builder').update;\r\n\r\nvar query = new Update();\r\n\r\nquery.table('user');\r\n\r\nquery.set({\r\n\t'name': 'sergey',\r\n\t'isAdmin': false\r\n});\r\n\r\nquery.where('id = 1').where(['block = 0', 'date > NOW()']);\r\n\r\nconsole.log(query.toString().bold.blue);\r\n```\r\n\r\n## Change Log\r\n\r\n#### v.0.0.5Beta\r\n\r\n- Added feature to create INSERT with multiple value\r\n- Added feature to specify the names of columns in the INSERT\r\n- Added SET keyword into UPDATE query\r\n- Escape names of fields into UPDATE query\r\n- Correct substitution in INSERT and UPDATE values of types Boolean and Number\r\n- Fixed field names in case JOIN multiple table\r\n\r\n#### v.0.0.4Beta\r\n\r\n- Syntax changes acording jshint.\r\n- Added colors dependency only to run examples.\r\n\r\n#### v.0.0.3Beta\r\n\r\n- small tunes of the code to be cleater and more readable.",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Serhioromano/node-sql-builder.git"
   },
-  "dependencies" : {
-    "underscore" :  "1.4.x",
-    "colors" :  "0.6.x"
-  },
-  "config": {
-    "adapter" : "mysql"
-  }
+  "version": "0.0.5-beta"
 }
